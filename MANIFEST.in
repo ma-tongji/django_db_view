@@ -1,0 +1,3 @@
+recursive-include django_db_view/templatetags *
+recursive-include django_db_view/static *
+recursive-include django_db_view/templates *
