@@ -10,7 +10,8 @@
 <script src="{% static 'django_db_view/js/slideshow.js' %}"></script>
 <script>
 $(document).ready(function () {
-  $(".remove-img").click(function() {
+  $(".remove-img").click(function(e) {
+    e.stopPropagation();
     var img_block_node = $(this).parent().parent();
     var url = $(this).data('href');
     $.ajax({
