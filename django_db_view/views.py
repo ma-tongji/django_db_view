@@ -8,7 +8,7 @@ from django.db.models import Q
 
 
 def show(request, app_name, model_name):
-    '''charfield integerfield, boofield, textfield, foreignKey
+    '''CharField, TextField, IntegerField, BooleanField, ForeignKey, ManyToManyField
     '''
     Models = importlib.import_module('{app_name}.models'.format(**locals()))
     Model = getattr(Models, model_name)
@@ -18,7 +18,7 @@ def show(request, app_name, model_name):
     display_args = {}
     Model2 = Model
     for k in query_dict:
-        if k in ('limit', 'order', 'page'):
+        if k in ('limit', 'order', 'page', 'display'):
             display_args[k] = query_dict[k]
             continue
         ks = k.split('__')
@@ -40,25 +40,26 @@ def show(request, app_name, model_name):
                 Model2 = Models._meta.get_field(ek).related_model
             else:
                 break
+    display = display_args.get('display') or 'table'
+
     if clean_dict:
         objs = Model.objects.filter(Q(**clean_dict))
     else:
         objs = Model.objects.all()
 
+    fields = [t.name for t in Model._meta.fields]
+    if hasattr(Model, 'django_db_view_fields') and display in Model.django_db_view_fields:
+        fields = [t for t in Model.django_db_view_fields.get(display) if not t.startswith('_')]  # filter out _ for gallery display 
+    headers = []
+    for f in fields:
+        try:
+            h = Model._meta.get_field(f).verbose_name
+        except FieldDoesNotExist:
+            h = getattr(Model, f).verbose_name
+        headers.append(h)
+
     if objs.exists():
-        if hasattr(objs[0], 'django_db_view_fields'):
-            fields = objs[0].django_db_view_fields
-            headers = []
-            for f in fields:
-                try:
-                    h = objs[0]._meta.get_field(f).verbose_name
-                except FieldDoesNotExist:
-                    h = getattr(objs[0], f).verbose_name
-                headers.append(h)
-        else:
-            fields = [t.name for t in objs[0]._meta.fields]
-            headers = [t.verbose_name for t in objs[0]._meta.fields]
-        order = display_args.get('order')
+        order = display_args.get('order')  # or '-id'
         if order:
             objs = objs.order_by(order)
         limit = display_args.get('limit') or 100
@@ -75,19 +76,18 @@ def show(request, app_name, model_name):
             page_objs = paginator.page(paginator.num_pages)
 
         title = ', '.join('%s=%s' % x for x in clean_dict.items()) + ' / ' + ', '.join('%s=%s' % x for x in display_args.items())
-        return render(request, 'django_db_view/show.html', {'page_objs': page_objs, 'fields': fields, 'headers': headers, 'title': title})
+        return render(request, 'django_db_view/show_as_%s.html' % display, {'page_objs': page_objs, 'fields': fields, 'headers': headers, 'title': title, 'model_meta': Model._meta})
     else:
         return render(request, 'django_db_view/debug.html', {'msg': 'No objects find.'})
 
 
-def edit(request, app_name, model_name, obj_id):
-    app_name = app_name.lower()
-    model_name = model_name.lower()
-    return reverse('admin:{app_name}_{model_name}_change'.format(**locals()), args=[obj_id])
-
-
-def delete(request, app_name, model_name, obj_id):
-    app_name = app_name.lower()
-    model_name = model_name.lower()
-    return reverse('admin:{app_name}_{model_name}_delete'.format(**locals()), args=[obj_id])
-
+#def edit(request, app_name, model_name, obj_id):
+#    app_name = app_name.lower()
+#    model_name = model_name.lower()
+#    return reverse('admin:{app_name}_{model_name}_change'.format(**locals()), args=[obj_id])
+#
+#
+#def delete(request, app_name, model_name, obj_id):
+#    app_name = app_name.lower()
+#    model_name = model_name.lower()
+#    return reverse('admin:{app_name}_{model_name}_delete'.format(**locals()), args=[obj_id])

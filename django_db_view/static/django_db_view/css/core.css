@@ -143,7 +143,7 @@ table.sortable{border:1px solid #ddd;}
 /* ----------------- new ----------------- */
 
 .img-container {
-  margin: 20px;
+  /*margin: 20px;*/
   font-size: 0;
 }
 .img-block {
@@ -189,7 +189,6 @@ table.sortable{border:1px solid #ddd;}
 .box-shadow {
   box-shadow: 4px -4px #999;
 }
-
 .box-img img {
   max-width: 100%;
   cursor: zoom-in;
@@ -197,6 +196,11 @@ table.sortable{border:1px solid #ddd;}
 }
 .box-img img:hover {
   opacity: 0.7;
+}
+
+.pagination {
+  display:block;
+  text-align:center;
 }
 .pag-btn, .pag-btn:active, .pag-btn:focus {
   display: inline-block;
@@ -212,7 +216,6 @@ table.sortable{border:1px solid #ddd;}
   color: #fff;
   cursor: pointer;
   text-decoration: none;
-
 }
 
 .glyphicon-remove {

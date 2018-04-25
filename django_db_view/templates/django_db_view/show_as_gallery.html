@@ -1,0 +1,131 @@
+{% extends "django_db_view/base.html" %}
+{% load static %}
+{% load url_replace %}
+
+{% block css %}
+<link href="{% static 'css/slideshow.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block js %}
+<script>
+$(document).ready(function () {
+  $(".remove-img").click(function() {
+    var img_block_node = $(this).parent().parent();
+    var url = $(this).data('href');
+    $.ajax({
+      url: url,
+      success: function(data){
+        console.log(data);
+        if (data['success']) {
+          img_block_node.remove();
+        }
+      }
+    })
+  });
+
+  $(".submit-score").click(function() {
+    var url = $(this).data('href');
+    var score = $(this).prev().val();
+    var score_node = $(this).parent().prev();
+    $.ajax({
+      url: url,
+      data: {'score': score},
+      success: function(data){
+        console.log(data);
+        if (data['success']) {
+          score_node.text(score);
+        }
+      }
+    })
+  });
+});
+
+function SlideShow(current_img_i){
+  this.images = $('.img-block'); //$('img').each(function(i,v){console.log(v.src)})
+  this.current_img_i = current_img_i;
+  this.interval_id = -1; // -1 not set
+}
+SlideShow.prototype.slide_change = function(shift_i) {
+  this.current_img_i = (this.current_img_i + shift_i + this.images.length) % this.images.length;
+  $('.full-cover img').attr('src', $(this.images[this.current_img_i]).data('image-url'));
+  $('.preload').attr('src', $(this.images[(this.current_img_i+1) % this.images.length]).data('image-url'));
+}
+
+$(function() {
+  /* Full screen image when click, remove full screen image when click anywhere. */
+  $("img").click(function() {
+    var current_img_i = $('img').index(this);
+    var slideshow = new SlideShow(current_img_i);
+    //console.log(current_img);
+    var image_real_url = $(slideshow.images[slideshow.current_img_i]).data('image-url');
+    var full_cover_div = '<div class="full-cover"><img style="max-width:100%; max-height:100%;" src="'+image_real_url+'" /><img class="preload" /><div class="slide-control slide-left">❮</div><div class="slide-control slide-right">❯</div><div class="slide-control-panel"><div class="slide-control slide-close">✖</div><div class="slide-control slide-auto"><span class="glyphicon glyphicon-play"></span></div><div class="slide-control slide-stop"><span class="glyphicon glyphicon-pause"></span></div></div>';
+    $('body').append(full_cover_div);
+    //$('.full-cover').click(function(){
+    //  $(this).remove();
+    //})    
+    $('.slide-right').click(function(){
+      slideshow.slide_change(1);
+    });
+    $('.slide-left').click(function(){
+      slideshow.slide_change(-1);
+    });
+    $('.slide-auto').click(function(){
+      interval_id = window.setInterval(function(){slideshow.slide_change(1)}, 2000);
+    });
+    $('.slide-stop').click(function(){
+      window.clearInterval(interval_id);
+      interval_id = -1;
+    });
+    $('.slide-close').click(function(){
+      $('.full-cover').remove();
+    });
+  });
+  //$("img")[0].click();
+
+})
+
+</script>
+{% endblock js %}
+
+
+{% block content %}
+<div class="container-fluid">
+  <h3>{{title}}</h3>
+  <hr>
+  <div class="img-container">
+    {% for obj in page_objs %}
+    {% with obj.get_view_galery_obj_image as obj_image %}
+    {% if obj_image %}
+    <div class="img-block" data-image-id="{{obj_image.id}}" data-image-url="{% if obj_image.file %}{{obj_image.file.url}}{% endif %}" data-from-app="obj_image.get_come_from_app}}" data-rating="{{obj_image.score}}">
+      <div class="box-img box-{{obj_image.get_image_ext}}">
+        {% if obj_image.thumbnail.name %}
+        <img src="{{obj_image.thumbnail.url}}"></img>
+        {% else %}
+        <img src="{% static 'images/no_thumbnail.jpg' %}"></img>
+        {% endif %}
+        <span title="删除" class="glyphicon glyphicon-remove-circle remove-img" data-href="{% url 'image:delete_image' image_id=obj_image.id %}"></span>
+      </div>
+      <div class='pull-right'>{% if obj_image.score %}{{obj_image.score}}{% endif %}</div>
+      <div class="img-rating">
+        <input style="width: 40px;" placeholder="score">
+        <span class="glyphicon glyphicon-ok-circle submit-score" data-href="{% url 'image:rating_image' image_id=obj_image.id %}"></span>
+      </div>
+      <div><a target="_blank" href="{% url 'admin:image_image_change' obj_image.id %}">{{obj_image.title}}</a></div>
+    </div>
+    {% endif %}
+    {% endwith %}
+    {% endfor %}
+  </div>
+
+  <div class="pagination">
+    {% if page_objs.has_previous %}
+    <a class="pag-btn" href="?{% url_replace page=page_objs.previous_page_number %}">«</a>
+    {% endif %}
+    <a class="pag-btn" href="#">Page {{ page_objs.number }} of {{ page_objs.paginator.num_pages }}</a>
+    {% if page_objs.has_next %}
+    <a class="pag-btn" href="?{% url_replace page=page_objs.next_page_number %}">»</a>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock content %}
