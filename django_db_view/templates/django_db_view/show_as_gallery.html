@@ -42,7 +42,7 @@ $(document).ready(function () {
   });
 
   SlideShow.init(
-    [{'selector':'.img-block', 'attrib':'data-image-url'}]
+    [{'selector':'.box-img', 'attrib':'data-image-url'}]
   )
 });
 
@@ -59,8 +59,8 @@ $(document).ready(function () {
     {% for obj in page_objs %}
     {% with obj.get_view_galery_obj_image as obj_image %}
     {% if obj_image %}
-    <div class="img-block" data-image-id="{{obj_image.id}}" data-image-url="{% if obj_image.file %}{{obj_image.file.url}}{% endif %}" data-from-app="obj_image.get_come_from_app}}" data-rating="{{obj_image.score}}">
-      <div class="box-img box-{{obj_image.get_image_ext}}">
+    <div class="img-block" data-image-id="{{obj_image.id}}" data-from-app="obj_image.get_come_from_app}}" data-rating="{{obj_image.score}}">
+      <div class="box-img box-{{obj_image.get_image_ext}}" data-image-url="{% if obj_image.file %}{{obj_image.file.url}}{% endif %}">
         {% if obj_image.thumbnail.name %}
         <img src="{{obj_image.thumbnail.url}}"></img>
         {% else %}

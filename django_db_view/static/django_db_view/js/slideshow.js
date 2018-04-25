@@ -1,5 +1,4 @@
-//slide_show.js ver 1.0
-
+//slide_show.js ver 1.1
 /* load js and css manually if the page have't load them
 
 (function(e, s) {
