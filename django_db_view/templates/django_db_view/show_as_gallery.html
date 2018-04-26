@@ -3,7 +3,7 @@
 {% load url_replace %}
 
 {% block css %}
-<link href="{% static 'css/slideshow.css' %}" rel="stylesheet">
+<link href="{% static 'django_db_view/css/slideshow.css' %}" rel="stylesheet">
 {% endblock css %}
 
 {% block js %}
@@ -64,7 +64,7 @@ $(document).ready(function () {
         {% if obj_image.thumbnail.name %}
         <img src="{{obj_image.thumbnail.url}}"></img>
         {% else %}
-        <img src="{% static 'images/no_thumbnail.jpg' %}"></img>
+        <img src="{% static 'django_db_view/images/no_thumbnail.jpg' %}"></img>
         {% endif %}
         <span title="删除" class="glyphicon glyphicon-remove-circle remove-img" data-href="{% url 'image:delete_image' image_id=obj_image.id %}"></span>
       </div>

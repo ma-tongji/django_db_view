@@ -1,0 +1,76 @@
+.full-cover {
+  background-color: rgba(111, 199, 241, 0.62);
+  /*background-image: url("paper.gif");*/
+  width:100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+.full-cover img {
+  /*background-image: url("/img_board/static/images/LaceBackgrounds4.png");*/
+  max-width: 100%;
+  max-height: 100%;
+  background-repeat: repeat;
+}
+.bg-lace {
+  background-image: url("/img_board/static/images/LaceBackgrounds4.png");
+}
+
+.slide-control {
+  font-size: 20px;
+  color: #fff;
+  border: 1px #65e7 solid;
+  border-radius: 3px;
+  padding: 6px 14px;
+  position: relative;
+  /*box-shadow: 1px 0px red, 0 1px red, -1px 0 red, 0 -1px red;*/
+}
+.slide-control:after{ 
+  content: '' ; 
+  display: block ; 
+  position: absolute ; 
+  top: 0 ; 
+  bottom: 0 ; 
+  left: 0 ; 
+  right: 0 ; 
+  border: 1px #fff solid;
+  border-radius: 3px;
+  padding: 0px;
+}
+.slide-control-outline {
+  position: absolute;
+  border: 1px #33e solid;
+  border-radius: 3px;
+  padding: 0px;
+}
+
+.slide-control:hover{
+  color: #33e;
+  border: 1px #33e solid;
+  cursor: pointer;
+}
+.slide-left {
+  position: absolute;
+  left: 5%;
+}
+.slide-right {
+  position: absolute;
+  left: 95%;
+}
+.slide-control-panel {
+  position: absolute;
+  right: 5%;
+  top: 5%;
+}
+.slide-control-panel > div {
+  display: inline-block;
+  margin: 0 5px;
+}
+.preload {
+  display: none;
+}
