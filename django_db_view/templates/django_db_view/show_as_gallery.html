@@ -3,11 +3,11 @@
 {% load url_replace %}
 
 {% block css %}
-<link href="{% static 'django_db_view/css/slideshow.css' %}" rel="stylesheet">
+<link href="{% static 'slideshow/slideshow.css' %}" rel="stylesheet">
 {% endblock css %}
 
 {% block js %}
-<script src="{% static 'django_db_view/js/slideshow.js' %}"></script>
+<script src="{% static 'slideshow/slideshow.js' %}"></script>
 <script>
 $(document).ready(function () {
   $(".remove-img").click(function(e) {

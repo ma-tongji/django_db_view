@@ -6,12 +6,25 @@
 
 
 {% block css %}
+<link href="{% static 'tablesort/tablesort.css' %}" rel="stylesheet">
 <style>
 .toolbar {
   margin: 10px auto;
 }
 </style>
 {% endblock css %}
+
+{% block js %}
+<script src="{% static 'tablesort/tablesort.js' %}"></script>
+<script src="{% static 'tablesort/sorts/tablesort.number.js' %}"></script>
+<script src="{% static 'tablesort/sorts/tablesort.date.js' %}"></script>
+<script>
+$(function() {
+  new Tablesort(document.getElementsByTagName('table')[0]);
+})
+</script>
+{% endblock js %}
+
 {%  block content %}
 <div class="container-fluid">
   <h3>{{title}}</h3>
@@ -19,7 +32,7 @@
    <div class="toolbar">
      <a target="_blank" role="button" class="btn btn-primary" href="{% url model_meta|admin_urlname:'add' %}">Add new</a>
    </div>
-  <table>
+  <table class="table1">
     <thead>
       <tr>
         {% for head in headers %}
@@ -32,7 +45,7 @@
       {% for obj in page_objs %}
       <tr>
         {% for field in fields %}
-          <td>{{obj|getattrib:field}}</td>
+        <td>{{obj|getattrib:field}}</td>
         {% endfor %}
         <td>
           <a target="_blank" href="{% url model_meta|admin_urlname:'change' obj.id %}"><span class="glyphicon glyphicon-pencil"></span></a>

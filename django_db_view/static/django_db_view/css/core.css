@@ -3,33 +3,13 @@
   -moz-box-sizing: border-box;    /* Firefox, other Gecko */
   box-sizing: border-box;         /* Opera/IE 8+ */
 }
-
 * {-webkit-font-smoothing: antialiased;}
 
-/* ---------- navbar end -------------- */
-body {
-  /*background-color: #92B6D5;
-  color:white;*/
-}
-
+/* ---------- default tags -------------- */
 
 textarea:focus, input:focus{
   outline: none;
   border-color: #79C753;
-}
-
-.content {
-  //border: 1px solid #ef2f2f;
-  margin: 15px 10px 15px 10px;
-  background-color: #fff;
-}
-
-.underline {
-  border-bottom: 1px solid #cfcfcf;
-}
-
-td {
-  text-align: left;
 }
 
 hr {
@@ -40,11 +20,20 @@ hr {
 }
 
 hr.compact {
-  border: 0;
+  /*border: 0;
   height: 1px;
   background: #404;
+  opacity: 0.3;*/
   margin: 1px;
-  opacity: 0.3;
+}
+
+.content {
+  margin: 15px 10px 15px 10px;
+  background-color: #fff;
+}
+
+.underline {
+  border-bottom: 1px solid #cfcfcf;
 }
 
 .form-default {
@@ -57,59 +46,40 @@ hr.compact {
 /*---------------------------------
   HEADINGS
 -----------------------------------*/
-h1,h2,h3,h4,h5,h6 {
-  font-weight:bold;
-  line-height:140%;
-}
-h1 {
-  font-size:3em;
-  margin:10px 0 10px 0;
-}
-h2 {
-  font-size:2.5em;
-  margin:10px 0 10px 0;
-}
-h3 {
-  font-size:2em;
-  margin:10px 0 10px 0;
-}
-h4 {
-  font-size:1.5em;
-  margin:10px 0 10px 0;
-}
+h1,h2,h3,h4,h5,h6 {font-weight:bold; line-height:140%;}
+h1 {font-size:3em; margin:10px 0 10px 0;}
+h2 {font-size:2.5em; margin:10px 0 10px 0;}
+h3 {font-size:2em; margin:10px 0 10px 0;}
+h4 {font-size:1.5em; margin:10px 0 10px 0;}
+
 
 /*---------------------------------
   TABLES
 -----------------------------------*/
-table{margin:0 0 10px 0;text-align:left;border-collapse: collapse;}
-  thead, tbody{margin:0;padding:0;}
-  th, td{padding:7px 10px;font-size:0.9em;border-bottom:1px dotted #ddd;text-align:left;}
-  thead th{font-size:0.9em;padding:3px 10px;border-bottom:1px solid #ddd;}
-  tbody tr.last th,
-  tbody tr.last td{border-bottom:0;}
+table {margin:0 0 10px 0; text-align:left; border-collapse: collapse;}
+thead, tbody {margin:0; padding:0;}
+th, td {padding:7px 10px; font-size:0.9em; border-bottom:1px dotted #ddd; text-align:left;}
+thead th {font-size:0.9em; padding:3px 10px; border-bottom:1px solid #ddd;}
+tbody tr.last th, tbody tr.last td {border-bottom:0;}
 
 /* striped */
-table.striped{}
-  table.striped tr.alt{background:#f5f5f5;}
-  table.striped thead th{background:#fff;}
-  table.striped tbody th{background:#f5f5f5;text-align:right;padding-right:15px;border-right:1px dotted #e5e5e5;}
-  table.striped tbody tr.alt th{background:#efefef;}
+table.striped tr.alt {background:#f5f5f5;}
+table.striped thead th {background:#fff;}
+table.striped tbody th {background:#f5f5f5; text-align:right; padding-right:15px; border-right:1px dotted #e5e5e5;}
+table.striped tbody tr.alt th {background:#efefef;}
 
 /* tight */
-table.tight{}
-  table.tight th, .tight td{padding:2px 10px;}
+table.tight th, .tight td {padding:2px 10px;}
 
 /* sortable */
-table.sortable{border:1px solid #ddd;}
-  table.sortable thead th{cursor: pointer;position:relative;top:0;left:0;border-right:1px solid #ddd;}
-  table.sortable thead th:hover{background:#efefef;}
-  table.sortable span.arrow{border-style:solid;border-width:5px;
-  display:block;position:absolute;top:50%;right:5px;font-size:0;
-  border-color:#ccc transparent transparent transparent;
-  line-height:0;height:0;width:0;margin-top:-2px;}
-  table.sortable span.arrow.up{border-color:transparent transparent #ccc transparent;margin-top:-7px;}
+table.sortable {border:1px solid #ddd;}
+table.sortable thead th {cursor: pointer; position:relative; top:0; left:0; border-right:1px solid #ddd;}
+table.sortable thead th:hover {background:#efefef;}
+table.sortable span.arrow {border-style:solid; border-width:5px; display:block; position:absolute; top:50%; right:5px; font-size:0;
+  border-color:#ccc transparent transparent transparent; line-height:0; height:0; width:0; margin-top:-2px;}
+table.sortable span.arrow.up {border-color:transparent transparent #ccc transparent; margin-top:-7px;}
 
-.table1 {
+table.table1 {
   border-collapse: collapse;
   border-spacing: 0;
   table-layout: fixed;
@@ -117,35 +87,16 @@ table.sortable{border:1px solid #ddd;}
   padding: 10px;
   color: #666;
 }
-.table1 thead {
-  display: table-header-group;
-  vertical-align: middle;
-}
-.table1 thead tr {
-    display: table-row;
-}
-.table1 thead th {
-  background: #def;
-  text-align: center;
-}
-.table1 th, .table1 td{
-  position:relative;padding:5px;
-  border-collapse:collapse;border:1px solid #ccc;
-  line-height:1.3;empty-cells:hide;
-}
-.table1 td{
-  padding:10px 5px;
-}
-.table1 tbody tr:hover{
-  background:#F3F9FF;
-}
+.table1 thead {display: table-header-group; vertical-align: middle;}
+.table1 thead tr {display: table-row;}
+.table1 thead th {background: #def; text-align: center;}
+.table1 th, .table1 td {position:relative; padding:5px; border-collapse:collapse; border:1px solid #ccc; line-height:1.3; empty-cells:hide;}
+.table1 td {padding:10px 5px;}
+.table1 tbody tr:hover {background:#F3F9FF;}
+
 
 /* ----------------- new ----------------- */
-
-.img-container {
-  /*margin: 20px;*/
-  font-size: 0;
-}
+.img-container {font-size: 0;}
 .img-block {
   display: inline-block;
   max-width: 200px;
@@ -168,24 +119,12 @@ table.sortable{border:1px solid #ddd;}
   /*max-height: 200px;*/
   /*display: inline-block;*/
 }
-.box-norm {
-  border: 2px solid white;
-}
-.box-jpg {
-  border: 2px solid #0e0;
-}
-.box-jpeg {
-  border: 2px solid #0e0;
-}
-.box-png {
-  border: 2px solid #ff0;
-}
-.box-bmp {
-  border: 2px solid #e00;
-}
-.box-gif {
-  border: 2px solid #00f;
-}
+.box-norm {border: 2px solid white;}
+.box-jpeg {border: 2px solid #0e0;}
+.box-jpg {border: 2px solid #0e0;}
+.box-png {border: 2px solid #ff0;}
+.box-bmp {border: 2px solid #e00;}
+.box-gif {border: 2px solid #00f;}
 .box-shadow {
   box-shadow: 4px -4px #999;
 }
@@ -198,6 +137,8 @@ table.sortable{border:1px solid #ddd;}
   opacity: 0.7;
 }
 
+
+/* ----------------- pagination ----------------- */
 .pagination {
   display:block;
   text-align:center;
@@ -218,12 +159,9 @@ table.sortable{border:1px solid #ddd;}
   text-decoration: none;
 }
 
-.glyphicon-remove {
-  color: #f00;
-}
-.glyphicon-ok {
-  color: #2e2;
-}
+
+.glyphicon-remove {color: #f00;}
+.glyphicon-ok {color: #2e2;}
 .tag {
   display: inline-block;
   border-left: 1px solid #000;
