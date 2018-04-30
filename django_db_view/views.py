@@ -16,13 +16,16 @@ def show(request, app_name, model_name):
     query_dict = request.GET
     clean_dict = {}
     display_args = {}
-    Model2 = Model
     for k in query_dict:
+        Model2 = Model
         if k in ('limit', 'order', 'page', 'display'):
             display_args[k] = query_dict[k]
             continue
         ks = k.split('__')
         for ek in ks:
+            if ek in ('pk', 'id'):
+                clean_dict[k] = int(query_dict[k])
+                break
             try:
                 field_type = Model2._meta.get_field(ek).get_internal_type()
             except FieldDoesNotExist:
@@ -36,17 +39,23 @@ def show(request, app_name, model_name):
             elif field_type == 'BooleanField':
                 clean_dict[k] = bool(int(query_dict[k]))
                 break
-            elif field_type == ('ForeignKey', 'ManyToManyField'):
-                Model2 = Models._meta.get_field(ek).related_model
+            elif field_type in ('ForeignKey', 'ManyToManyField'):
+                Model2 = Model2._meta.get_field(ek).related_model
             else:
                 break
-    display = display_args.get('display') or 'table'
+    # temp fix for get all sub tags, only work for tags__id now
+    if 'tags__id' in clean_dict:
+        tag_id = clean_dict.pop('tags__id')
+        Model2 = Model._meta.get_field('tags').related_model
+        all_tag_ids = [t.id for t in Model2.objects.get(id=tag_id).get_all_child_tags()]
+        clean_dict['tags__id__in'] = all_tag_ids
 
     if clean_dict:
         objs = Model.objects.filter(Q(**clean_dict))
     else:
         objs = Model.objects.all()
 
+    display = display_args.get('display') or 'table'
     fields = [t.name for t in Model._meta.fields]
     if hasattr(Model, 'django_db_view_fields') and display in Model.django_db_view_fields:
         fields = [t for t in Model.django_db_view_fields.get(display) if not t.startswith('_')]  # filter out _ for gallery display 
