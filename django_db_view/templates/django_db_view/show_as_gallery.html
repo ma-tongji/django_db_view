@@ -73,7 +73,7 @@ $(document).ready(function () {
         <input style="width: 40px;" placeholder="score">
         <span class="glyphicon glyphicon-ok-circle submit-score" data-href="{% url 'image:rating_image' image_id=obj_image.id %}"></span>
       </div>
-      <div><a target="_blank" href="{% url 'admin:image_image_change' obj_image.id %}">{{obj_image.title}}</a></div>
+      <div><a target="_blank" href="{% url 'admin:image_image_change' obj_image.id %}">{{obj_image}}</a></div>
     </div>
     {% endif %}
     {% endwith %}

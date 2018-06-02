@@ -51,7 +51,7 @@ def show(request, app_name, model_name):
         clean_dict['tags__id__in'] = all_tag_ids
 
     if clean_dict:
-        objs = Model.objects.filter(Q(**clean_dict))
+        objs = Model.objects.filter(Q(**clean_dict)).distinct()
     else:
         objs = Model.objects.all()
 
